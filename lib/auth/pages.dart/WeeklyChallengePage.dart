@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutterdatabaseproject/auth/pages.dart/ArtistsPage.dart';
 import 'package:flutterdatabaseproject/auth/pages.dart/ArtistHistoryPage.dart';
-import 'package:flutterdatabaseproject/auth/pages.dart/InspirationPage.dart';
 import 'package:flutterdatabaseproject/auth/pages.dart/HomePage.dart';
 import 'package:flutterdatabaseproject/auth/pages.dart/custom_footer.dart';
 
@@ -428,7 +427,6 @@ class CustomNavigationHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> menuItems = [
       {'title': 'Home', 'page': const Homepage()},
-      {'title': 'Inspiration', 'page': const Inspirationpage()},
       {'title': 'Weekly Challenge', 'page': const Weeklychallengepage()},
       {'title': 'Artists', 'page': const Artistspage()},
       {'title': 'Artist in History', 'page': const ArtistHistoryPage()},
