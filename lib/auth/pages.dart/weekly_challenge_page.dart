@@ -1,48 +1,48 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutterdatabaseproject/auth/pages.dart/ArtistsPage.dart';
-import 'package:flutterdatabaseproject/auth/pages.dart/ArtistHistoryPage.dart';
-import 'package:flutterdatabaseproject/auth/pages.dart/HomePage.dart';
-import 'package:flutterdatabaseproject/auth/pages.dart/custom_footer.dart';
 
-class Weeklychallengepage extends StatefulWidget {
-  const Weeklychallengepage({super.key});
+import 'package:flutterdatabaseproject/widgets/custom_footer.dart';
+import 'package:flutterdatabaseproject/models/artist_model.dart';
+import 'package:flutterdatabaseproject/widgets/custom_navigation_header.dart';
+
+class WeeklyChallengePage extends StatefulWidget {
+  const WeeklyChallengePage({super.key});
 
   @override
-  State<Weeklychallengepage> createState() => _WeeklyChallengePageState();
+  State<WeeklyChallengePage> createState() => _WeeklyChallengePageState();
 }
 
-class _WeeklyChallengePageState extends State<Weeklychallengepage> {
+class _WeeklyChallengePageState extends State<WeeklyChallengePage> {
  // final PageController _pageController = PageController();
 /// قائمة بيانات الفنانين
-final List<Map<String, String>> artists = [
-  {
-    "name": "Ahmed Ali",
-    "handle": "@ahmed_art",
-    "description": "Digital illustrator inspired by fantasy & emotion.",
-    "image": "assets/images/gg3.jpg",
-  },
-  {
-    "name": "Sara Omar",
-    "handle": "@sara_art",
-    "description": "Painter specialized in watercolor landscapes.",
-    "image": "assets/images/ramprant3.jpeg",
-  },
-  {
-    "name": "Mohamed Fathy",
-    "handle": "@mohamed_art",
-    "description": "3D artist & sculptor, exploring modern abstract forms.",
-    "image": "assets/images/monset2.jpg",
-  },
-  {
-    "name": "Lina Hassan",
-    "handle": "@lina_art",
-    "description": "Graphic designer focusing on minimalism & color theory.",
-    "image": "assets/images/mona.jpeg",
-  },
+/// قائمة بيانات الفنانين باستخدام الموديل
+final List<Artist> artists = [
+  Artist(
+    name: "Ahmed  Ali",
+    handle: "@ahmed_art",
+    description: "Digital illustrator inspired by fantasy & emotion.",
+    image: "assets/images/gg3.jpg",
+  ),
+  Artist(
+    name: "Sara  Omar",
+    handle: "@sara_art",
+    description: "Painter specialized in watercolor landscapes.",
+    image: "assets/images/ramprant3.jpeg",
+  ),
+  Artist(
+    name: "Mohamed Fathy",
+    handle: "@mohamed_art",
+    description: "3D artist & sculptor, exploring modern abstract forms.",
+    image: "assets/images/monset2.jpg",
+  ),
+  Artist(
+    name: "Lina Hassan",
+    handle: "@lina_art",
+    description: "Graphic designer focusing on minimalism & color theory.",
+    image: "assets/images/mona.jpeg",
+  ),
 ];
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -53,12 +53,11 @@ final List<Map<String, String>> artists = [
     return Scaffold(
       backgroundColor: const Color(0xFF2B1A0F),
       body: CustomScrollView(
-        slivers: [
-
+     slivers: [
           /// ===== NAVIGATION HEADER =====
           SliverToBoxAdapter(
             child: CustomNavigationHeader(
-              currentIndex: 2,
+              currentIndex: 1, // رقم الصفحة في قائمة المنيو
               screenWidth: size.width,
             ),
           ),
@@ -110,9 +109,12 @@ final List<Map<String, String>> artists = [
             padding: const EdgeInsets.symmetric(horizontal: 20),
             sliver: SliverGrid(
               delegate: SliverChildBuilderDelegate(
-                (context, index) => _buildArtCard(index),
-                childCount: 8,
-              ),
+                (context, index) {
+              final artist = artists[index % artists.length];
+        return _buildArtCard(artist);
+   },
+   childCount: 8,
+    ),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
                 crossAxisSpacing: 20,
@@ -147,7 +149,7 @@ final List<Map<String, String>> artists = [
           borderRadius: BorderRadius.circular(25),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.8),
+              //color: Colors.black.withOpacity(0.8),
               blurRadius: 50,
               offset: const Offset(0, 25),
             )
@@ -223,7 +225,7 @@ final List<Map<String, String>> artists = [
   void _showStackPopup() {
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.7),
+    //  barrierColor: Colors.black.withOpacity(0.7),
       builder: (_) {
         bool expanded = false;
 
@@ -323,7 +325,7 @@ final List<Map<String, String>> artists = [
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.6),
+           // color: Colors.black.withOpacity(0.6),
             blurRadius: 25,
             offset: const Offset(0, 15),
           )
@@ -337,11 +339,10 @@ final List<Map<String, String>> artists = [
   }
 
   /// ================= GRID CARD =================
-  Widget _buildArtCard(int index) {
+  Widget _buildArtCard(Artist artist) {
   bool isHovered = false;
-  final artist = artists[index % artists.length]; // لتكرار البيانات لو عدد الكاردات أكبر
+return StatefulBuilder(builder: (context, setState) { // لتكرار البيانات لو عدد الكاردات أكبر
 
-  return StatefulBuilder(builder: (context, setState) {
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
       onExit: (_) => setState(() => isHovered = false),
@@ -352,7 +353,7 @@ final List<Map<String, String>> artists = [
           boxShadow: isHovered
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.6),
+                 //   color: Colors.black.withOpacity(0.6),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   )
@@ -366,7 +367,7 @@ final List<Map<String, String>> artists = [
               /// صورة الفنان
               Positioned.fill(
                 child: Image.asset(
-                  artist['image']!,
+                 artist.image,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -376,7 +377,7 @@ final List<Map<String, String>> artists = [
                 duration: const Duration(milliseconds: 300),
                 opacity: isHovered ? 1 : 0,
                 child: Container(
-                  color: Colors.black.withOpacity(0.5),
+                 // color: Colors.black.withOpacity(0.5),
                 ),
               ),
 
@@ -390,7 +391,7 @@ final List<Map<String, String>> artists = [
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      artist['name']!,
+                      artist.name,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -400,7 +401,7 @@ final List<Map<String, String>> artists = [
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      artist['handle']!,
+                      artist.handle,
                       style: const TextStyle(
                         color: Color(0xFFA08264),
                         fontSize: 14,
@@ -409,7 +410,7 @@ final List<Map<String, String>> artists = [
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      artist['description']!,
+                      artist.description,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.white70,
@@ -428,50 +429,4 @@ final List<Map<String, String>> artists = [
   });
 }
 
-}
-
-class CustomNavigationHeader extends StatelessWidget {
-  final int currentIndex;
-  final double screenWidth;
-  const CustomNavigationHeader({super.key, required this.currentIndex, required this.screenWidth});
-
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> menuItems = [
-      {'title': 'Home', 'page': const Homepage()},
-      {'title': 'Weekly Challenge', 'page': const Weeklychallengepage()},
-      {'title': 'Artists', 'page': const Artistspage()},
-      {'title': 'Artist in History', 'page': const ArtistHistoryPage()},
-    ];
-
-    return Center(
-      child: Padding(
-padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          spacing: screenWidth * 0.03,
-          runSpacing: 10,
-          children: menuItems.asMap().entries.map((entry) {
-            bool isActive = currentIndex == entry.key;
-            return InkWell(
-              onTap: () {
-                if (!isActive) {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => entry.value['page']));
-                }
-              },
-              child: Text(
-                entry.value['title'],
-                style: GoogleFonts.inter(
-                  fontSize: screenWidth < 400 ? 14 : 18,
-                  fontWeight: FontWeight.w600,
-                  color: isActive ? Colors.amber : Colors.white,
-                  decoration: isActive ? TextDecoration.underline : TextDecoration.none,
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
 }

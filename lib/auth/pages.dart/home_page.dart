@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // استيرادات الصفحات
-import 'package:flutterdatabaseproject/auth/pages.dart/ArtistsPage.dart';
-import 'package:flutterdatabaseproject/auth/pages.dart/ArtistHistoryPage.dart';
-import 'package:flutterdatabaseproject/auth/pages.dart/WeeklyChallengePage.dart';
-import 'package:flutterdatabaseproject/auth/pages.dart/custom_footer.dart';
+
+import 'package:flutterdatabaseproject/widgets/custom_footer.dart';
+import 'package:flutterdatabaseproject/widgets/custom_navigation_header.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -58,51 +57,7 @@ class _HomepageState extends State<Homepage> {
 
 /* ================= HEADER ================= */
 
-class CustomNavigationHeader extends StatelessWidget {
-  final int currentIndex;
-  final double screenWidth;
-  const CustomNavigationHeader({super.key, required this.currentIndex, required this.screenWidth});
 
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> menuItems = [
-      {'title': 'Home', 'page': const Homepage()},
-      {'title': 'Weekly Challenge', 'page': const Weeklychallengepage()},
-      {'title': 'Artists', 'page': const Artistspage()},
-      {'title': 'Artist in History', 'page': const ArtistHistoryPage()},
-    ];
-
-    return Center(
-      child: Padding(
-padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          spacing: screenWidth * 0.03, // مسافة نسبية بين الروابط
-          runSpacing: 10,
-          children: menuItems.asMap().entries.map((entry) {
-            bool isActive = currentIndex == entry.key;
-            return InkWell(
-              onTap: () {
-                if (!isActive) {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => entry.value['page']));
-                }
-              },
-              child: Text(
-                entry.value['title'],
-                style: GoogleFonts.inter(
-                  fontSize: screenWidth < 400 ? 14 : 18, // تصغير الخط في الجوالات الصغيرة جداً
-                  fontWeight: FontWeight.w600,
-                  color: isActive ? Colors.amber : Colors.white,
-                  decoration: isActive ? TextDecoration.underline : TextDecoration.none,
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-}
 
 /* ================= HERO SECTION (Full Responsive) ================= */
 
@@ -233,13 +188,13 @@ class _SideImageCardState extends State<_SideImageCard> {
                 isHovered
                     ? BoxShadow(
                         // تأثير الهوفر: rgba(160,130,100,0.3) مع إزاحة 30px
-                        color: const Color(0xFFA08264).withOpacity(0.3),
+                       // color: const Color(0xFFA08264).withOpacity(0.3),
                         blurRadius: 40,
                         offset: const Offset(0, 30),
                       )
                     : BoxShadow(
                         // التأثير العادي: rgba(0,0,0,0.9) مع إزاحة 25px
-                        color: Colors.black.withOpacity(0.9),
+                        //color: Colors.black.withOpacity(0.9),
                         blurRadius: 36,
                         offset: const Offset(0, 25),
                       ),

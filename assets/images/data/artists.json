@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Ahmed bin Ali",
+    "handle": "@ahmed_art",
+    "description": "Digital illustrator inspired by fantasy & emotion.",
+    "image": "assets/images/gg3.jpg"
+  },
+  {
+    "name": "Sara aser Omar",
+    "handle": "@sara_art",
+    "description": "Painter specialized in watercolor landscapes.",
+    "image": "assets/images/ramprant3.jpeg"
+  },
+  {
+    "name": "Mohamed Fathy",
+    "handle": "@mohamed_art",
+    "description": "3D artist & sculptor, exploring modern abstract forms.",
+    "image": "assets/images/monset2.jpg"
+  },
+  {
+    "name": "Lina Hassan",
+    "handle": "@lina_art",
+    "description": "Graphic designer focusing on minimalism & color theory.",
+    "image": "assets/images/mona.jpeg"
+  }
+]

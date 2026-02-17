@@ -1,44 +1,54 @@
-import 'package:flutterdatabaseproject/auth/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'RegistorPage.dart';
-import 'package:flutterdatabaseproject/auth/pages.dart/HomePage.dart';
+import 'package:flutterdatabaseproject/auth/auth_service.dart' show AuthService;
+//import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutterdatabaseproject/auth/pages.dart/home_page.dart';
 
-class Loginpage extends StatefulWidget {
-  const Loginpage ({super.key});
+class RegistorPage extends StatefulWidget {
+  const RegistorPage({super.key});
   @override
-  State<Loginpage> createState() => _LoginpageState();
-}
+  State<RegistorPage> createState() => _RegistorPageState();
+  }
 
-class _LoginpageState extends State<Loginpage>{
-  //get auth servies 
+  class _RegistorPageState extends State<RegistorPage>{
+      //get auth servies 
   final authService = AuthService();
   //text controler
   final _emailcontroller = TextEditingController();
   final _passwordController = TextEditingController();
-  //log in button pressed
-void login() async{
-  final email = _emailcontroller.text.trim();
-    final password = _passwordController.text.trim();
-//attempt login 
-try{
-await authService.signInWithEmailPassword(email, password);
+    final _confirmPasswordController = TextEditingController();
+    //sigm up button pressed 
+    void signUp() async{
+      //prepare data 
+      final email = _emailcontroller.text.trim();
+final password =_passwordController.text.trim();
+final confirmPassword = _confirmPasswordController.text;
+  //check the password match 
+  if(password != confirmPassword){
+    ScaffoldMessenger.of(context)
+    .showSnackBar(const SnackBar(content:Text("password dont match")));
+  return;
+  }  
+    try
+    {
+await authService.signUpWithEmailPassword(email, password);
 
-   if (mounted) {
+if (mounted) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const Homepage()),
         );
       }
-}
-//catch
-catch (e){
-  if(mounted) {
-  ScaffoldMessenger.of(context)
-  .showSnackBar(SnackBar(content:Text("Error:$e")));
-}
-}
-}
-// ui 
+    }
+    catch (e){
+      if(mounted){
+            ScaffoldMessenger.of(context)
+    .showSnackBar( SnackBar(content:Text("error: $e")));
+      }
+    }
+    
+    }
+
+    //ui
 @override
 Widget build(BuildContext context) {
 
@@ -56,11 +66,11 @@ Widget build(BuildContext context) {
           child: Container(
             padding: EdgeInsets.all(isTablet ? 40 : 28),
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 85, 57, 34),
+              color: const Color(0xFF372414),
               borderRadius: BorderRadius.circular(25),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
+                 // color: Colors.black.withOpacity(0.5),
                   blurRadius: 25,
                   offset: const Offset(0, 15),
                 )
@@ -71,11 +81,11 @@ Widget build(BuildContext context) {
               children: [
 
                 Text(
-                  "Welcome Back",
+                  "Create Account",
                   style: TextStyle(
                     color: const Color(0xFFF5EDE6),
                     fontSize: isTablet ? 32 : 24,
-                    fontWeight: FontWeight.w300, // خط رفيع
+                    fontWeight: FontWeight.w300,
                     letterSpacing: 2,
                   ),
                 ),
@@ -96,7 +106,7 @@ Widget build(BuildContext context) {
                       fontWeight: FontWeight.w300,
                     ),
                     filled: true,
-                    fillColor: const Color.fromARGB(255, 218, 189, 160),
+                    fillColor: const Color(0xFFA08264),
                     contentPadding: EdgeInsets.symmetric(
                       vertical: isTablet ? 22 : 18,
                       horizontal: 20,
@@ -125,7 +135,36 @@ Widget build(BuildContext context) {
                       fontWeight: FontWeight.w300,
                     ),
                     filled: true,
-                    fillColor: const Color.fromARGB(255, 218, 189, 160),
+                    fillColor: const Color(0xFFA08264),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: isTablet ? 22 : 18,
+                      horizontal: 20,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                /// CONFIRM PASSWORD
+                TextField(
+                  controller: _confirmPasswordController,
+                  obscureText: true,
+                  style: const TextStyle(
+                    color: Color(0xFF2B1A0F),
+                    fontWeight: FontWeight.w400,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "Confirm Password",
+                    hintStyle: const TextStyle(
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    filled: true,
+                    fillColor: const Color(0xFFA08264),
                     contentPadding: EdgeInsets.symmetric(
                       vertical: isTablet ? 22 : 18,
                       horizontal: 20,
@@ -139,11 +178,11 @@ Widget build(BuildContext context) {
 
                 SizedBox(height: isTablet ? 40 : 30),
 
-                /// LOGIN BUTTON
+                /// SIGN UP BUTTON
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: login,
+                    onPressed: signUp,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 218, 189, 160),
                       padding: EdgeInsets.symmetric(
@@ -155,7 +194,7 @@ Widget build(BuildContext context) {
                       elevation: 10,
                     ),
                     child: Text(
-                      "LOGIN",
+                      "SIGN UP",
                       style: TextStyle(
                         color: const Color(0xFF2B1A0F),
                         fontSize: isTablet ? 18 : 16,
@@ -168,17 +207,15 @@ Widget build(BuildContext context) {
 
                 const SizedBox(height: 20),
 
-               GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const Registorpage()),
-                  ),
+                /// BACK TO LOGIN
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
                   child: const Text(
-                    "Don't have an account? Sign up",
+                    "Already have an account? Login",
                     style: TextStyle(
-                      color: Color(0xFFD7A86E),
-                      fontWeight: FontWeight.w500,
+                      color: Color(0xFFA08264),
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: 1.5,
                     ),
                   ),
                 ),
@@ -191,10 +228,5 @@ Widget build(BuildContext context) {
   );
 }
 
-
-
-
-
-}
-
-
+  }
+  

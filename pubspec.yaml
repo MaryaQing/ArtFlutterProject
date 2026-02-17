@@ -22,5 +22,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-
+    - C:\flutterdatabaseproject\assets\images\data\artists.json
 

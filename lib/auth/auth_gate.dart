@@ -1,10 +1,9 @@
 //auth state changes
 // unathenticated -> log in page 
 // authenticated -> profile page
-import 'package:flutterdatabaseproject/auth/pages.dart/HomePage.dart';
-import 'package:flutterdatabaseproject/auth/pages.dart/loginpage.dart';
-
-import 'package:flutterdatabaseproject/auth/pages.dart/Profilepage.dart';
+import 'package:flutterdatabaseproject/auth/pages.dart/home_page.dart';
+import 'package:flutterdatabaseproject/auth/pages.dart/login_page.dart';
+//import 'package:flutterdatabaseproject/auth/pages.dart/profile_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';
 class AuthGate extends StatelessWidget{
@@ -30,7 +29,7 @@ if(session != null){
   return const Homepage();
 }
   else{
-    return const Loginpage();
+    return const LoginPage();
   }
       },
         
