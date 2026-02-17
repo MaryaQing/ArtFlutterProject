@@ -1,8 +1,8 @@
 # flutterdatabaseproject
 
-A new Flutter project.
+My Flutter project.
 Artist World Platform 🎨
-📌 About the Project
+About the Project:
 
 Artist World is a Flutter-based application available as both a mobile app and web platform.
 It is designed for artists and art lovers who want to explore creativity, gain inspiration, share their passion, and connect with artists from around the world.
