@@ -46,10 +46,13 @@ A brief introduction to the platform.
 An overview of the available sections and features.
 
 This page serves as a quick guide to help users navigate through the website or app easily.
+
 <img width="623" height="910" alt="homepage1" src="https://github.com/user-attachments/assets/c6182e88-bf96-441c-b452-d35ce9061d67" />
 
 <img width="622" height="917" alt="homepage2" src="https://github.com/user-attachments/assets/0ceb2e19-b9b3-474d-bc3b-21153af0135b" />
+
 <img width="626" height="796" alt="homepage3" src="https://github.com/user-attachments/assets/a08b58d2-180a-477c-b57f-d87f0f2bc68a" />
+
 <img width="623" height="913" alt="homepagefooter" src="https://github.com/user-attachments/assets/6d3ed172-aed7-462c-9078-9b158cf944c4" />
 
 -----
@@ -72,9 +75,13 @@ Users can explore different styles and discover new talents effortlessly.
 <img width="361" height="797" alt="artist1" src="https://github.com/user-attachments/assets/e502a4ce-236d-4e24-ae2a-5467308d408a" />
 
 <img width="357" height="807" alt="artist2" src="https://github.com/user-attachments/assets/ae512081-358e-4148-88a2-d05f9cfc0e85" />
+
 you can click on the pic to see it on the big card
+
 <img width="362" height="820" alt="artist3" src="https://github.com/user-attachments/assets/71d4e660-7271-4b27-a2c9-2de5aa6177ba" />
+
 you can filiter what art you will like to see for example here
+
 
 <img width="357" height="775" alt="artist4" src="https://github.com/user-attachments/assets/00a39c71-03c0-43b2-8f0c-cbd0f510c09b" />
 
@@ -102,6 +109,7 @@ you can click on show art to see the artist arts and click on the page to close 
 <img width="352" height="796" alt="ah2" src="https://github.com/user-attachments/assets/dde256f0-3ef8-4319-a7e8-4bfce515afee" />
 
 <img width="356" height="802" alt="ah3" src="https://github.com/user-attachments/assets/2743ec98-e72c-48b1-9bc5-2ce23655986d" />
+
 <img width="361" height="793" alt="ah4" src="https://github.com/user-attachments/assets/2856bb58-ed24-49e6-b220-bfc0f308ad74" />
 
 ------
