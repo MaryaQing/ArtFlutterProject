@@ -23,7 +23,6 @@ class Artistspage extends StatefulWidget {
 
 class _ArtistsPageState extends State<Artistspage> with TickerProviderStateMixin {
   String activeFilter = 'all';
-  late AnimationController _shimmerController;
   
   // بيانات الفنانين
   final List<Map<String, dynamic>> _artists = [
@@ -79,7 +78,7 @@ class _ArtistsPageState extends State<Artistspage> with TickerProviderStateMixin
           children: [
             const SizedBox(height: 10),
            // نضع currentIndex: 3 لأن ترتيب Artists في قائمة الهوم هو الرابع (0,1,2,3)
-            CustomNavigationHeader(currentIndex: 3, screenWidth: screenWidth),
+            CustomNavigationHeader(currentIndex: 2, screenWidth: screenWidth),
             
             const SizedBox(height: 10),
            

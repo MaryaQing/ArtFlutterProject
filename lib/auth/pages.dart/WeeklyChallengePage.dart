@@ -229,6 +229,10 @@ final List<Map<String, String>> artists = [
 
         return StatefulBuilder(
           builder: (context, setState) {
+
+  final size = MediaQuery.of(context).size;
+  final isMobile = size.width < 600;
+
             return BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
               child: Center(
@@ -261,33 +265,39 @@ final List<Map<String, String>> artists = [
                     ),
 
                     Center(
+                      
                       child: GestureDetector(
                         onTap: () =>
                             setState(() => expanded = !expanded),
-                        child: SizedBox(
-                          width: 700,
-                          height: 400,
+                            
+                       child: SizedBox(
+  width: isMobile ? size.width * 0.9 : 700,
+  height: isMobile ? size.height * 0.6 : 400,
+
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
-                              AnimatedPositioned(
-                                duration:
-                                    const Duration(milliseconds: 500),
-                                left: expanded ? 0 : 250,
-                                child: _stackCard("assets/images/ramprant5.jpeg"),
-                              ),
-                              AnimatedPositioned(
-                                duration:
-                                    const Duration(milliseconds: 500),
-                                left: expanded ? 250 : 260,
-                                child: _stackCard("assets/images/gg5.jpeg"),
-                              ),
-                              AnimatedPositioned(
-                                duration:
-                                    const Duration(milliseconds: 500),
-                                left: expanded ? 500 : 270,
-                                child: _stackCard("assets/images/gg2.jpg"),
-                              ),
+                           AnimatedPositioned(
+  duration: const Duration(milliseconds: 500),
+  left: expanded ? 0 : (isMobile ? size.width * 0.3 : 250),
+  child: _stackCard("assets/images/ramprant5.jpeg"),
+),
+
+                           AnimatedPositioned(
+  duration: const Duration(milliseconds: 500),
+  left: expanded
+      ? (isMobile ? size.width * 0.3 : 250)
+      : (isMobile ? size.width * 0.32 : 260),
+  child: _stackCard("assets/images/gg5.jpeg"),
+),
+
+                           AnimatedPositioned(
+  duration: const Duration(milliseconds: 500),
+  left: expanded
+      ? (isMobile ? size.width * 0.6 : 500)
+      : (isMobile ? size.width * 0.34 : 270),
+  child: _stackCard("assets/images/gg2.jpg"),
+),
                             ],
                           ),
                         ),
@@ -304,9 +314,11 @@ final List<Map<String, String>> artists = [
   }
 
   Widget _stackCard(String image) {
+     final size = MediaQuery.of(context).size;
+  final isMobile = size.width < 600;
     return Container(
-      width: 220,
-      height: 330,
+     width: isMobile ? size.width * 0.6 : 220,
+    height: isMobile ? size.height * 0.45 : 330,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
