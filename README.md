@@ -29,6 +29,8 @@ New users can create an account through the Sign Up page.
 Passwords are securely encrypted in the input field.
 
 Simple, clean, and user-friendly UI design.
+
+
 <img width="385" height="812" alt="password lock" src="https://github.com/user-attachments/assets/0b44de4e-615e-4c4d-8717-b41b265c8f31" />
 
 -------
