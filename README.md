@@ -144,9 +144,6 @@ Short description of the artwork
 All content is displayed in a clean and well-organized layout.
 
 
-<img width="362" height="487" alt="weeakleych" src="https://github.com/user-attachments/assets/855eb4b6-b7a9-40f8-9fb7-4f241deaf948" />
-
-
 <img width="361" height="797" alt="weak1" src="https://github.com/user-attachments/assets/0a859ef5-1a94-4013-a66d-2c4dde79d1d8" />
 
 <img width="363" height="797" alt="weak2" src="https://github.com/user-attachments/assets/90ed1136-a6b1-462a-b04b-61b99cc3e811" />
