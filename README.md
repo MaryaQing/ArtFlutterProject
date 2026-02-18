@@ -43,7 +43,7 @@ A friendly greeting message.
 
 A brief introduction to the platform.
 
-An overview of the available sections and features.
+An overview of the available sections and features and you can click on the cards to go there page( like artist aoround the world navegaite to artist page).
 
 This page serves as a quick guide to help users navigate through the website or app easily.
 
@@ -161,5 +161,29 @@ All pages are fully responsive and optimized for:
 
 This ensures accessibility and a smooth experience for all users.
 hope uou enjoy it i worked hard on it.
+
+
+exampels this site on the web:
+
+<img width="1915" height="907" alt="web1" src="https://github.com/user-attachments/assets/bfbe693c-a1fe-4a99-83c9-aeb9d2aba416" />
+
+hover on the pic when the mouse touch it :
+
+<img width="1916" height="907" alt="web2" src="https://github.com/user-attachments/assets/6211cc97-3bd7-4674-92d7-873add4763b8" />
+
+
+<img width="1917" height="897" alt="web3" src="https://github.com/user-attachments/assets/649df9bf-5fdc-466e-9b1e-b3a8286b3804" />
+
+
+<img width="1915" height="903" alt="web5" src="https://github.com/user-attachments/assets/2b40c903-4016-400c-9bc1-4c59c69a448e" />
+
+
+<img width="1911" height="797" alt="web6" src="https://github.com/user-attachments/assets/1d67fa65-dbf8-40b3-9982-56af3e2b4dcc" />
+
+
+<img width="1917" height="750" alt="web7" src="https://github.com/user-attachments/assets/a5d9ca59-05fb-437e-b542-9ad128d74d77" />
+
+
+<img width="1917" height="911" alt="web8" src="https://github.com/user-attachments/assets/2abed6a4-e6ba-45df-abef-bca4c23f67e5" />
 
 
