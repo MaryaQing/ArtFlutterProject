@@ -1,9 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:flutterdatabaseproject/widgets/custom_footer.dart';
 import 'package:flutterdatabaseproject/models/artist_model.dart';
+import 'package:flutterdatabaseproject/services/artist_service.dart';
+import 'package:flutterdatabaseproject/widgets/custom_footer.dart';
 import 'package:flutterdatabaseproject/widgets/custom_navigation_header.dart';
 
 class WeeklyChallengePage extends StatefulWidget {
@@ -14,50 +14,41 @@ class WeeklyChallengePage extends StatefulWidget {
 }
 
 class _WeeklyChallengePageState extends State<WeeklyChallengePage> {
- // final PageController _pageController = PageController();
-/// قائمة بيانات الفنانين
-/// قائمة بيانات الفنانين باستخدام الموديل
-final List<Artist> artists = [
-  Artist(
-    name: "Ahmed  Ali",
-    handle: "@ahmed_art",
-    description: "Digital illustrator inspired by fantasy & emotion.",
-    image: "assets/images/gg3.jpg",
-  ),
-  Artist(
-    name: "Sara  Omar",
-    handle: "@sara_art",
-    description: "Painter specialized in watercolor landscapes.",
-    image: "assets/images/ramprant3.jpeg",
-  ),
-  Artist(
-    name: "Mohamed Fathy",
-    handle: "@mohamed_art",
-    description: "3D artist & sculptor, exploring modern abstract forms.",
-    image: "assets/images/monset2.jpg",
-  ),
-  Artist(
-    name: "Lina Hassan",
-    handle: "@lina_art",
-    description: "Graphic designer focusing on minimalism & color theory.",
-    image: "assets/images/mona.jpeg",
-  ),
-];
+  List<Artist> artists = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData(); 
+  }
+
+Future<void> _loadData() async {
+  try {
+    final data = await ArtistService.getAllArtists();
+    setState(() {
+artists = data.where((a) => a.type?.toLowerCase().trim() == 'challenge').toList();      isLoading = false;
+    });
+  } catch (e) {
+    print("Error: $e");
+    setState(() => isLoading = false);
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isTablet = size.width > 700;
-    final crossAxisCount =
-        size.width > 1000 ? 4 : size.width > 600 ? 2 : 1;
+    final crossAxisCount = size.width > 1000 ? 4 : size.width > 600 ? 2 : 1;
 
     return Scaffold(
       backgroundColor: const Color(0xFF2B1A0F),
       body: CustomScrollView(
-     slivers: [
+        slivers: [
           /// ===== NAVIGATION HEADER =====
           SliverToBoxAdapter(
             child: CustomNavigationHeader(
-              currentIndex: 1, // رقم الصفحة في قائمة المنيو
+              currentIndex: 1,
               screenWidth: size.width,
             ),
           ),
@@ -85,10 +76,8 @@ final List<Artist> artists = [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFA08264),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 18),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 18),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                   ),
                   onPressed: () {},
                   child: const Text(
@@ -107,28 +96,37 @@ final List<Artist> artists = [
           /// ===== GRID =====
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: SliverGrid(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-              final artist = artists[index % artists.length];
-        return _buildArtCard(artist);
-   },
-   childCount: 8,
-    ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                childAspectRatio: 0.75,
-              ),
-            ),
+
+            sliver:
+isLoading 
+  ? const SliverToBoxAdapter(child: Center(child: Padding(
+      padding: EdgeInsets.all(50.0),
+      child: CircularProgressIndicator(color: Color(0xFFA08264)),
+    )))
+  : artists.isEmpty
+    ? const SliverToBoxAdapter(child: Center(child: Text("No Data Found", style: TextStyle(color: Colors.white))))
+    : SliverPadding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        sliver: SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => _buildArtCard(artists[index]),
+            childCount: artists.length,
+          ),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            crossAxisSpacing: 20,
+            mainAxisSpacing: 20,
+            childAspectRatio: 0.75,
+          ),
+        ),
+      ),
           ),
 
-          
-        const SliverToBoxAdapter(child: SizedBox(height: 100)),
-            /// ===== FOOTER =====
-          SliverToBoxAdapter(
-            child: const CustomFooter(),
+          const SliverToBoxAdapter(child: SizedBox(height: 100)),
+
+          /// ===== FOOTER =====
+          const SliverToBoxAdapter(
+            child: CustomFooter(),
           ),
         ],
       ),
@@ -225,7 +223,6 @@ final List<Artist> artists = [
   void _showStackPopup() {
     showDialog(
       context: context,
-    //  barrierColor: Colors.black.withOpacity(0.7),
       builder: (_) {
         bool expanded = false;
 
@@ -241,7 +238,6 @@ final List<Artist> artists = [
                 child: Stack(
                   children: [
 
-                    /// زر اغلاق
                     Positioned(
                       top: 50,
                       right: 40,
@@ -316,117 +312,73 @@ final List<Artist> artists = [
   }
 
   Widget _stackCard(String image) {
-     final size = MediaQuery.of(context).size;
-  final isMobile = size.width < 600;
+    final size = MediaQuery.of(context).size;
+    final isMobile = size.width < 600;
     return Container(
-     width: isMobile ? size.width * 0.6 : 220,
-    height: isMobile ? size.height * 0.45 : 330,
+      width: isMobile ? size.width * 0.6 : 220,
+      height: isMobile ? size.height * 0.45 : 330,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-           // color: Colors.black.withOpacity(0.6),
             blurRadius: 25,
             offset: const Offset(0, 15),
           )
         ],
-        image: DecorationImage(
-          image: AssetImage(image),
-          fit: BoxFit.cover,
-        ),
+        image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
       ),
     );
   }
 
   /// ================= GRID CARD =================
   Widget _buildArtCard(Artist artist) {
-  bool isHovered = false;
-return StatefulBuilder(builder: (context, setState) { // لتكرار البيانات لو عدد الكاردات أكبر
-
-    return MouseRegion(
-      onEnter: (_) => setState(() => isHovered = true),
-      onExit: (_) => setState(() => isHovered = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: isHovered
-              ? [
-                  BoxShadow(
-                 //   color: Colors.black.withOpacity(0.6),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
-                  )
-                ]
-              : [],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Stack(
-            children: [
-              /// صورة الفنان
-              Positioned.fill(
-                child: Image.asset(
-                 artist.image,
-                  fit: BoxFit.cover,
+    bool isHovered = false;
+    return StatefulBuilder(builder: (context, setState) {
+      return MouseRegion(
+        onEnter: (_) => setState(() => isHovered = true),
+        onExit: (_) => setState(() => isHovered = false),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: isHovered ? [BoxShadow(blurRadius: 20, offset: const Offset(0, 10))] : [],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Image.asset(
+                    artist.mainImage ?? "",
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-
-              /// خلفية عند hover
-              AnimatedOpacity(
-                duration: const Duration(milliseconds: 300),
-                opacity: isHovered ? 1 : 0,
-                child: Container(
-                 // color: Colors.black.withOpacity(0.5),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: isHovered ? 1 : 0,
+                  child: Container(color: Colors.black.withOpacity(0.3)),
                 ),
-              ),
-
-              /// معلومات الفنان عند hover
-              AnimatedPositioned(
-                duration: const Duration(milliseconds: 300),
-                bottom: isHovered ? 20 : -120,
-                left: 15,
-                right: 15,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      artist.name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      artist.handle,
-                      style: const TextStyle(
-                        color: Color(0xFFA08264),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      artist.description,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ],
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 300),
+                  bottom: isHovered ? 20 : -120,
+                  left: 15,
+                  right: 15,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(artist.name ?? "", style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w300, letterSpacing: 1)),
+                      const SizedBox(height: 5),
+                      Text(artist.handle ?? "", style: const TextStyle(color: Color(0xFFA08264), fontSize: 14, fontWeight: FontWeight.w300)),
+                      const SizedBox(height: 8),
+                      Text(artist.description ?? "", textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w300)),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  });
-}
-
+      );
+    });
+  }
 }

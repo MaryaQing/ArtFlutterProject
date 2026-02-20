@@ -1,26 +1,184 @@
 [
   {
-    "name": "Ahmed bin Ali",
+    "id":"ahmed_ali_1",
+    "type":"challenge",
+    "category":"digital",
+    "name":"Ahmed Ali",
     "handle": "@ahmed_art",
     "description": "Digital illustrator inspired by fantasy & emotion.",
-    "image": "assets/images/gg3.jpg"
+    "mainImage": "assets/images/gg3.jpg",
+    "gallery": []
   },
+   
   {
-    "name": "Sara aser Omar",
+    "id":"sara_omar_1",
+      "type":"challenge",
+    "category":"watercolor",
+    "name":"Sara Omar",
     "handle": "@sara_art",
     "description": "Painter specialized in watercolor landscapes.",
-    "image": "assets/images/ramprant3.jpeg"
+    "mainImage": "assets/images/ramprant3.jpeg",
+    "gallery": []
   },
   {
-    "name": "Mohamed Fathy",
+    "id":"mohamed_fathy_1",
+      "type":"challenge",
+    "category":"3d",
+    "name":"Mohamed Fathy",
     "handle": "@mohamed_art",
     "description": "3D artist & sculptor, exploring modern abstract forms.",
-    "image": "assets/images/monset2.jpg"
+    "mainImage": "assets/images/monset2.jpg",
+    "gallery": []
   },
   {
-    "name": "Lina Hassan",
+    "id":"lina_hassan_1",
+      "type":"challenge",
+    "category":"graphic",
+    "name":"Lina Hassan",
     "handle": "@lina_art",
     "description": "Graphic designer focusing on minimalism & color theory.",
-    "image": "assets/images/mona.jpeg"
+    "mainImage": "assets/images/mona.jpeg",
+    "gallery": []
+  },
+  {
+    
+    "id":"vinc_1",
+        "type":"art",
+    "category":"classic",
+    "name":"Vincent van haha Gogh",
+    "handle": "",
+    "description": "A Dutch post-impressionist painter known for his expressive use of color and bold brushwork. His works include 'Starry Night' and 'Sunflowers'.",
+    "mainImage": "assets/images/lilies.jpeg",
+    "gallery": [
+      "assets/images/vango1.jpeg",
+      "assets/images/vango2.jpeg",
+      "assets/images/vango3.jpeg"
+    ]
+  },
+  {
+    "id":"safeya_2",
+     "type":"art",
+    "category":"arab",
+    "name":"Safeya Binzagr",
+    "handle": "@safeya_art",
+    "description": "A Saudi artist who documented traditional Saudi life through detailed and expressive paintings rooted in local culture.",
+    "mainImage": "assets/images/monbg3.jpg",
+    "gallery": [
+      "assets/images/moneh2.jpeg",
+      "assets/images/monset.jpeg",
+      "assets/images/monbg2.jpg"
+    ]
+  },
+  {
+    "id":"shahad_3",
+     "type":"art",
+    "category":"digital",
+    "name":"Shahad",
+    "handle": "@shahad_digital",
+    "description": "A renowned digital artist known for her expressive characters, whimsical color palettes, and dynamic compositions.",
+    "mainImage": "assets/images/shahad1.jpeg",
+    "gallery": [
+      "assets/images/shahad2.jpeg",
+      "assets/images/shahad3.jpeg",
+      "assets/images/shahad4.jpeg"
+    ]
+  },
+  {
+    "id":"oil_artist_1",
+     "type":"art",
+    "category":"oil",
+    "name":"Marya",
+    "handle": "",
+    "description": "A founder of French Impressionist painting, known for his oil on canvas masterpieces capturing light and nature.",
+    "mainImage": "assets/images/flower.jpeg",
+    "gallery": [
+      "assets/images/tree.jpeg",
+      "assets/images/sea2.jpeg",
+      "assets/images/sea.jpeg"
+    ]
+  },
+  {
+    "id":"da_vinci_1",
+    "type":"history",
+    "category":"classic",
+    "name":"Leonardo da Vinci",
+    "handle": "",
+    "description":"A master of  the Renaissance who combined art and science in revolutionary ways.",
+    "mainImage":"assets/images/vinchi.jpeg",
+    "gallery": [
+      "assets/images/mona.jpeg",
+      "assets/images/vinchiwork.jpg",
+      "assets/images/vinchiwork2.jpg"
+    ]
+  },
+  {
+    "id":"monet_1",
+        "type":"history",
+    "category":"impressionism",
+    "name":"Claude de Monet",
+    "handle": "",
+    "description": "A  of impressionism who captured light and color like no other.",
+    "mainImage": "assets/images/monetpic.jpeg",
+    "gallery": [
+      "assets/images/monbg.jpg",
+      "assets/images/monbg3.jpg",
+      "assets/images/moneh2.jpeg"
+    ]
+  },
+  {
+    "id":"rembrandt_1",
+        "type":"history",
+    "category":"classic",
+    "name":"Rembrandt the great",
+    "handle": "",
+    "description": "A Dutch Baroque painter and master storyteller in the history of art.",
+    "mainImage": "assets/images/Rembrandt.jpeg",
+    "gallery": [
+      "assets/images/ramprant1.jpeg",
+      "assets/images/ramprant2.jpeg",
+      "assets/images/ramprant3.jpeg"
+    ]
+  },
+     {
+  "id": "vangogh_2",
+  "type": "history",
+  "category": "classic",
+  "name": "Van Gogh",
+  "handle": "",
+  "description": "A Dutch Post-Impressionist painter and one of the most influential figures in Western art history.",
+  "mainImage": "assets/images/van2.jpeg",
+  "gallery": [
+    "assets/images/vango1.jpeg",
+    "assets/images/vango2.jpeg",
+    "assets/images/vango3.jpeg"
+  ]
+},
+  {
+    "id":"michelangelo_1",
+        "type":"history",
+    "category":"classic",
+    "name":"Michelangelo the great",
+    "handle": "",
+    "description": "An Italian Renaissance sculptor and painter known for the Sistine Chapel ceiling.",
+    "mainImage": "assets/images/michelangelo.jpeg",
+    "gallery": [
+      "assets/images/michel.jpg",
+      "assets/images/michel2.jpg",
+      "assets/images/michel3.jpg"
+    ]
+  },
+  {
+    "id":"delacroix_1",
+        "type":"history",
+    "category":"romantic",
+    "name":"Eugène Delacroix",
+    "handle": "",
+    "description": "A French Romantic artist who was regarded as the leader of the French Romantic school.",
+    "mainImage": "assets/images/ojen.jpg",
+    "gallery": [
+      "assets/images/ojen.jpg",
+      "assets/images/ojen2.jpg",
+      "assets/images/ojen3.jpg"
+    ]
   }
 ]

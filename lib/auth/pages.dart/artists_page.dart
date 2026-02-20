@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-// استيرادات الصفحات
-
+import 'package:flutterdatabaseproject/models/artist_model.dart';
+import 'package:flutterdatabaseproject/services/artist_service.dart';
 import 'package:flutterdatabaseproject/widgets/custom_footer.dart';
 import 'package:flutterdatabaseproject/widgets/custom_navigation_header.dart';
 
@@ -21,48 +21,42 @@ class ArtistsPage extends StatefulWidget {
 class _ArtistsPageState extends State<ArtistsPage> with TickerProviderStateMixin {
   String activeFilter = 'all';
   
-  // بيانات الفنانين
-  final List<Map<String, dynamic>> _artists = [
-    {
-      'id': 'vinc_1',
-      'category': 'classic',
-      'name': 'Vincent van Gogh',
-      'desc': 'A Dutch post-impressionist painter known for his expressive use of color and bold brushwork. His works include "Starry Night", "Sunflowers", and many more.',
-      'mainImage': 'assets/images/lilies.jpeg', 
-      'thumbs': ['assets/images/vango1.jpeg', 'assets/images/vango2.jpeg', 'assets/images/vango3.jpeg']
-    },
-    {
-      'id': 'safeya_2',
-      'category': 'arab',
-      'name': 'Safeya Binzagr',
-      'desc': 'A Saudi artist who documented traditional Saudi life through detailed and expressive paintings rooted in local culture.',
-      'mainImage': 'assets/images/monbg3.jpg',
-      'thumbs': ['assets/images/moneh2.jpeg', 'assets/images/monset.jpeg', 'assets/images/monbg2.jpg']
-    },
-    {
-      'id': 'shahad_3',
-      'category': 'digital',
-      'name': 'Shahad',
-      'desc': 'A renowned digital artist known for her expressive characters, whimsical color palettes, and dynamic compositions in digital painting.',
-      'mainImage': 'assets/images/shahad1.jpeg',
-      'thumbs': ['assets/images/shahad2.jpeg', 'assets/images/shahad3.jpeg', 'assets/images/shahad4.jpeg']
-    },
-{
-      'id': 'oil_artist_1',
-      'category': 'oil', // هذا هو المهم ليعمل الفلتر
-      'name': 'marya',
-      'desc': 'A founder of French Impressionist painting, known for his oil on canvas masterpieces capturing light and nature.',
-      'mainImage': 'assets/images/flower.jpeg', // تأكد من وجود الصورة في مجلدك
-      'thumbs': [
-        'assets/images/tree.jpeg',
-        'assets/images/sea2.jpeg',
-        'assets/images/sea.jpeg'
-      ]
-    },
+  // 1. قائمة لحفظ البيانات القادمة من JSON
+  List<Artist> allArtists = [];
+  List<Artist> filteredArtists = [];
+  bool isLoading = true;
 
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadData(); 
+  }
 
- 
+Future<void> _loadData() async {
+  try {
+    final data = await ArtistService.getAllArtists();
+    setState(() {
+allArtists = data.where((a) => a.type?.toLowerCase().trim() == 'art').toList();      // الفلترة الابتدائية (عند فتح الصفحة)
+      filteredArtists = allArtists; 
+      isLoading = false;
+    });
+  } catch (e) {
+    print("Error: $e");
+    setState(() => isLoading = false);
+  }
+}
+
+void _filterArtists(String category) {
+  setState(() {
+    activeFilter = category;
+    if (category == 'all') {
+      filteredArtists = allArtists;
+    } else {
+      filteredArtists = allArtists.where((a) => a.category == category).toList();
+    }
+  });
+}
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -70,38 +64,31 @@ class _ArtistsPageState extends State<ArtistsPage> with TickerProviderStateMixin
 
     return Scaffold(
       backgroundColor: const Color(0xFF372414),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-           // نضع currentIndex: 3 لأن ترتيب Artists في قائمة الهوم هو الرابع (0,1,2,3)
-            CustomNavigationHeader(currentIndex: 2, screenWidth: screenWidth),
-            
-            const SizedBox(height: 10),
-           
-            _buildHeroSection(context),
-            
-            const SizedBox(height: 30),
-            // أزرار الفلترة (كانت مكررة وحذفت النسخة الثانية)
-            _buildFilterButtons(),
-            
-
-            // قائمة الفنانين
-            Column(
-              children: _artists
-                  .where((a) => activeFilter == 'all' || a['category'] == activeFilter)
-                  .map((artist) => _buildArtistItem(artist, isMobile))
-                  .toList(),
+      body: isLoading 
+          ? const Center(child: CircularProgressIndicator(color: Color(0xFFF5D79E)))
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  CustomNavigationHeader(currentIndex: 2, screenWidth: screenWidth),
+                  const SizedBox(height: 10),
+                  _buildHeroSection(context),
+                  const SizedBox(height: 30),
+                  _buildFilterButtons(),
+                  
+                  // عرض القائمة المفلترة
+                  Column(
+                    children: filteredArtists
+                        .map((artist) => _buildArtistItem(artist, isMobile))
+                        .toList(),
+                  ),
+                  
+                  const CustomFooter(),
+                ],
+              ),
             ),
-            /// ===== FOOTER =====
-            const CustomFooter(),
-          ],
-        ),
-      ),
     );
   }
-
-
 Widget _buildHeroSection(BuildContext context) {
   final screenWidth = MediaQuery.of(context).size.width;
   final isMobile = screenWidth < 700;
@@ -211,13 +198,13 @@ Widget _buildHeroSection(BuildContext context) {
 
 
   Widget _buildFilterButtons() {
-    List<String> filters = ['all', 'classic', 'arab', 'digital', 'oil', 'water', 'sale', 'saudi', 'student'];
+    List<String> filters = ['all', 'classic', 'arab', 'digital', 'oil', 'watercolor', '3d', 'graphic'];
     return Wrap(
       spacing: 15,
       runSpacing: 15,
       alignment: WrapAlignment.center,
       children: filters.map((f) => InkWell(
-        onTap: () => setState(() => activeFilter = f),
+        onTap: () => _filterArtists(f), // استدعاء دالة الفلترة
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
@@ -232,7 +219,8 @@ Widget _buildHeroSection(BuildContext context) {
       )).toList(),
     );
   }
-Widget _buildArtistItem(Map<String, dynamic> artist, bool isMobile) {
+
+  Widget _buildArtistItem(Artist artist, bool isMobile) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
       child: Flex(
@@ -241,7 +229,7 @@ Widget _buildArtistItem(Map<String, dynamic> artist, bool isMobile) {
         children: [
           // الصورة الكبيرة
           Container(
-            width: 400,
+            width: isMobile ? double.infinity : 400,
             height: 400,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -249,10 +237,10 @@ Widget _buildArtistItem(Map<String, dynamic> artist, bool isMobile) {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                artist['mainImage'], 
+              child: Image.asset( 
+                artist.mainImage ?? '', 
                 fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) => loadingProgress == null ? child : const Center(child: CircularProgressIndicator()),
+                errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, color: Colors.white),
               ),
             ),
           ),
@@ -262,41 +250,41 @@ Widget _buildArtistItem(Map<String, dynamic> artist, bool isMobile) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(artist['name'], style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white)),
+                Text(artist.name ?? '', style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white)),
                 const SizedBox(height: 16),
-                Text(artist['desc'], style: const TextStyle(fontSize: 18, height: 1.4, color: Colors.white70)),
+                Text(artist.description ?? '', style: const TextStyle(fontSize: 18, height: 1.4, color: Colors.white70)),
                 const SizedBox(height: 25),
-                // الصور المصغرة مع منطق التبديل (Swap)
-                Wrap(
-                  spacing: 15,
-                  children: (artist['thumbs'] as List).asMap().entries.map((entry) {
-                    int idx = entry.key;
-                    String imgPath = entry.value;
-                    
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          // منطق التبديل (Swap):
-                          String currentMain = artist['mainImage'];
-                          artist['mainImage'] = imgPath; // الصورة الصغيرة تصبح كبيرة
-                          artist['thumbs'][idx] = currentMain; // الصورة الكبيرة القديمة تذهب لمكان الصغيرة
-                        });
-                      },
-                      child: Container(
-                        width: 96,
-                        height: 96,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white24, width: 2),
-                          borderRadius: BorderRadius.circular(4),
+                
+                if (artist.gallery != null && artist.gallery!.isNotEmpty)
+                  Wrap(
+                    spacing: 15,
+                    children: artist.gallery!.asMap().entries.map((entry) {
+                      int idx = entry.key;
+                      String imgPath = entry.value;
+                      
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            String? currentMain = artist.mainImage;
+                            artist.mainImage = imgPath;
+                            artist.gallery![idx] = currentMain!;
+                          });
+                        },
+                        child: Container(
+                          width: 96,
+                          height: 96,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white24, width: 2),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: Image.asset(imgPath, fit: BoxFit.cover),
+                          ),
                         ),
-                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: Image.asset(imgPath, fit: BoxFit.cover),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                )
+                      );
+                    }).toList(),
+                  )
               ],
             ),
           )
@@ -304,48 +292,5 @@ Widget _buildArtistItem(Map<String, dynamic> artist, bool isMobile) {
       ),
     );
   }
-
 }
 
-class SparkleWidget extends StatefulWidget {
-  const SparkleWidget({super.key});
-  @override
-  State<SparkleWidget> createState() => _SparkleWidgetState();
-}
-
-class _SparkleWidgetState extends State<SparkleWidget> with SingleTickerProviderStateMixin {
-  late AnimationController _ctrl;
-  late Animation<double> _scale;
-  late Animation<double> _opacity;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
-    _scale = Tween<double>(begin: 0.5, end: 1.5).animate(_ctrl);
-    _opacity = Tween<double>(begin: 1.0, end: 0.0).animate(_ctrl);
-    _ctrl.forward().then((_) { if(mounted) _ctrl.dispose(); });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _ctrl,
-      builder: (context, child) {
-        return Opacity(
-          opacity: _opacity.value,
-          child: Transform.scale(
-            scale: _scale.value,
-            child: Container(
-              width: 10, height: 10,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(0xFFF5D79E),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutterdatabaseproject/auth/pages.dart/artists_page.dart';
+import 'package:flutterdatabaseproject/auth/pages.dart/weekly_challenge_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 // استيرادات الصفحات
-
+import 'package:flutterdatabaseproject/auth/pages.dart/artist_history_page.dart';
 import 'package:flutterdatabaseproject/widgets/custom_footer.dart';
 import 'package:flutterdatabaseproject/widgets/custom_navigation_header.dart';
 
@@ -15,11 +17,10 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
-    // Media Query لضبط كل الأبعاد بناءً على حجم الشاشة
+
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     
-    // تعريف متغيرات الأحجام بناءً على العرض
     final bool isMobile = screenWidth < 600;
     final bool isTablet = screenWidth >= 600 && screenWidth < 1024;
 
@@ -29,10 +30,8 @@ class _HomepageState extends State<Homepage> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            // الهيدر الموسط
             CustomNavigationHeader(currentIndex: 0, screenWidth: screenWidth),
             
-            // قسم الهيرو (الذي يحتوي الصور الجانبية المكيّفة)
             _HeroSection(
               screenWidth: screenWidth, 
               screenHeight: screenHeight, 
@@ -41,7 +40,7 @@ class _HomepageState extends State<Homepage> {
             ),
             
             const SizedBox(height: 40),
-            _MainBoxes(screenWidth: screenWidth),
+            MainBoxes(screenWidth: screenWidth),
             const SizedBox(height: 80),
             _CardsSection(screenWidth: screenWidth),
             const SizedBox(height: 100),
@@ -76,7 +75,6 @@ class _HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ارتفاع القسم يتغير حسب الجهاز لضمان عدم خروج الصور
     double sectionHeight = isMobile ? screenHeight * 0.6 : screenHeight * 0.85;
 
     return Container(
@@ -85,7 +83,6 @@ class _HeroSection extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // العنوان الرئيسي - FittedBox يضمن أن النص لا يخرج أبداً
           Positioned(
             top: 20,
             child: SizedBox(
@@ -99,14 +96,13 @@ class _HeroSection extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                     height: 1,
                     color: Colors.white,
-                    fontSize: 100, // سيتم تصغيرها تلقائياً بواسطة FittedBox
+                    fontSize: 100, 
                   ),
                 ),
               ),
             ),
           ),
 
-          // صورة دافينتشي (الأساسية) - تتغير حجمها نسبياً
           Positioned(
             bottom: 0,
             child: Image.asset(
@@ -116,9 +112,7 @@ class _HeroSection extends StatelessWidget {
             ),
           ),
 
-          // الصور الجانبية - تظهر في التابلت والديسكتوب فقط لعدم زحمة الجوال
           if (!isMobile) ...[
-            // اليمين
             Positioned(
               right: screenWidth * 0.03,
               bottom: sectionHeight * 0.1,
@@ -187,14 +181,12 @@ class _SideImageCardState extends State<_SideImageCard> {
               boxShadow: [
                 isHovered
                     ? BoxShadow(
-                        // تأثير الهوفر: rgba(160,130,100,0.3) مع إزاحة 30px
-                       // color: const Color(0xFFA08264).withOpacity(0.3),
+                        color: const Color(0xFFA08264).withOpacity(0.3),
                         blurRadius: 40,
                         offset: const Offset(0, 30),
                       )
                     : BoxShadow(
-                        // التأثير العادي: rgba(0,0,0,0.9) مع إزاحة 25px
-                        //color: Colors.black.withOpacity(0.9),
+                        color: Colors.black.withOpacity(0.9),
                         blurRadius: 36,
                         offset: const Offset(0, 25),
                       ),
@@ -221,7 +213,7 @@ class _SideImageCardState extends State<_SideImageCard> {
         widget.text,
         textAlign: TextAlign.center,
         style: GoogleFonts.robotoMono(
-          color: Colors.white70, // النص يبقى ثابت كما طلبتِ
+          color: Colors.white70,
           fontSize: widget.screenWidth * 0.01 + 6,
         ),
       ),
@@ -229,35 +221,105 @@ class _SideImageCardState extends State<_SideImageCard> {
   }
 }
 /* ================= MAIN BOXES ================= */
-
-class _MainBoxes extends StatelessWidget {
+class MainBoxes extends StatelessWidget {
   final double screenWidth;
-  const _MainBoxes({required this.screenWidth});
+  const MainBoxes({required this.screenWidth, super.key});
 
   @override
   Widget build(BuildContext context) {
     bool isMobile = screenWidth < 800;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
       child: Column(
         children: [
           HoverImageBox(
-            image: "assets/images/artists.png", 
-            title: "Artist in History", 
-            height: isMobile ? 250 : 400
+            image: "assets/images/artists.png",
+            title: "Artist in History",
+            height: isMobile ? 250 : 400,
           ),
           const SizedBox(height: 50),
-          _infoRow("assets/images/flower.jpeg", "Artists Around the World", isMobile, false),
+          InfoRowCard(
+            context: context,
+            img: "assets/images/flower.jpeg",
+            title: "Artists Around the World",
+            isMobile: isMobile,
+            reverse: false,
+          ),
           const SizedBox(height: 50),
-          _infoRow("assets/images/flower2.jpeg", "Weekly Challenge", isMobile, !isMobile),
+          InfoRowCard(
+            context: context,
+            img: "assets/images/flower2.jpeg",
+            title: "Weekly Challenge",
+            isMobile: isMobile,
+            reverse: !isMobile,
+          ),
         ],
       ),
     );
   }
+}
 
-  Widget _infoRow(String img, String title, bool isMobile, bool reverse) {
-    List<Widget> items = [
-      Expanded(flex: isMobile ? 0 : 1, child: HoverImageBox(image: img, title: title, height: 220)),
+/// ==================== InfoRowCard Widget ====================
+class InfoRowCard extends StatelessWidget {
+  final BuildContext context;
+  final String img;
+  final String title;
+  final bool isMobile;
+  final bool reverse;
+
+  const InfoRowCard({
+    required this.context,
+    required this.img,
+    required this.title,
+    required this.isMobile,
+    required this.reverse,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Widget clickableCard = InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: () {
+        if (title == "Artists Around the World") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ArtistsPage()),
+          );
+        } else if (title == "Weekly Challenge") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const WeeklyChallengePage()),
+          );
+        }
+      },
+      child: Container(
+        height: 220,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: FadeInImage(
+            placeholder: const AssetImage("assets/images/placeholder.png"),
+            image: AssetImage(img),
+            fit: BoxFit.cover,
+            imageErrorBuilder: (context, error, stackTrace) {
+              return Container(
+                color: Colors.grey[800],
+                child: const Center(
+                  child: Icon(Icons.broken_image, color: Colors.white, size: 40),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+
+     List<Widget> items = [
+      Expanded(flex: isMobile ? 0 : 1, child: clickableCard),
       SizedBox(width: isMobile ? 0 : 30, height: isMobile ? 20 : 0),
       Expanded(
         flex: isMobile ? 0 : 1,
@@ -266,14 +328,19 @@ class _MainBoxes extends StatelessWidget {
           children: [
             Text(title, style: GoogleFonts.playfairDisplay(fontSize: 30, color: Colors.white)),
             const SizedBox(height: 10),
-            Text("Discover talented creators and their visions.",style: GoogleFonts.inter(color: Colors.white60,fontSize:24)),
+            Text(
+              "Discover talented creators and their visions.",
+              style: GoogleFonts.inter(color: Colors.white60, fontSize: 24),
+            ),
           ],
         ),
       ),
     ];
+
     return isMobile ? Column(children: items) : Row(children: reverse ? items.reversed.toList() : items);
   }
 }
+
 
 /* ================= OTHER COMPONENTS ================= */
 

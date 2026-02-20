@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutterdatabaseproject/services/artist_service.dart';
 // استيرادات الصفحات - تأكد من مطابقتها لمشروعك
 import 'package:flutterdatabaseproject/widgets/custom_footer.dart';
 import 'package:flutterdatabaseproject/widgets/custom_navigation_header.dart';
-
-
+import 'package:flutterdatabaseproject/models/artist_model.dart';
 class ArtistHistoryPage extends StatefulWidget {
   const ArtistHistoryPage({super.key});
 
@@ -13,75 +12,30 @@ class ArtistHistoryPage extends StatefulWidget {
 }
 
 class _ArtistHistoryPageState extends State<ArtistHistoryPage> {
-  final List<Map<String, dynamic>> artists = [
-    {
-      "name": "Leonardo da Vinci",
-      "desc":
-          "A master of the Renaissance who combined art and science in revolutionary ways.",
-      "image": "assets/images/vinchi.jpeg",
-      "gallery": [
-        "assets/images/mona.jpeg",
-        "assets/images/vinchiwork.jpg",
-        "assets/images/vinchiwork2.jpg",
-      ],
-    },
-    {
-      "name": "Claude Monet",
-      "desc":
-          "A pioneer of impressionism who captured light and color like no other.",
-      "image": "assets/images/monetpic.jpeg",
-      "gallery": [
-        "assets/images/monbg.jpg",
-        "assets/images/monbg3.jpg",
-        "assets/images/moneh2.jpeg",
-      ],
-    },
-    {
-      "name": "Van Gogh",
-      "desc":
-          "A Dutch Post-Impressionist painter and one of the most influential figures in Western art history.",
-      "image": "assets/images/van2.jpeg",
-      "gallery": [
-        "assets/images/vango1.jpeg",
-        "assets/images/vango2.jpeg",
-        "assets/images/vango3.jpeg",
-      ],
-    },
-    {
-      "name": "Rembrandt",
-      "desc":
-          "A Dutch Baroque painter and master storyteller in the history of art.",
-      "image": "assets/images/Rembrandt.jpeg",
-      "gallery": [
-        "assets/images/ramprant1.jpeg",
-        "assets/images/ramprant2.jpeg",
-        "assets/images/ramprant3.jpeg",
-      ],
-    },
-    {
-      "name": "Michelangelo",
-      "desc":
-          "An Italian Renaissance sculptor and painter known for the Sistine Chapel ceiling.",
-      "image": "assets/images/michelangelo.jpeg",
-      "gallery": [
-        "assets/images/michel.jpg",
-        "assets/images/michel2.jpg",
-        "assets/images/michel3.jpg",
-      ],
-    },
-    {
-      "name": "Eugène Delacroix",
-      "desc":
-          " was a French Romantic artist who was regarded as the leader of the French Romantic school",
-      "image": "assets/images/ojen.jpg",
 
-      "gallery": [
-        "assets/images/ojen.jpg",
-        "assets/images/ojen2.jpg",
-        "assets/images/ojen3.jpg",
-      ],
-    },
-  ];
+List<Artist> artists = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      final data = await ArtistService.getAllArtists();
+      setState(() {
+artists = data
+    .where((a) => a.type?.toLowerCase().trim() == 'history')
+    .toList();
+            isLoading = false;
+      });
+    } catch (e) {
+      print("Error: $e");
+      setState(() => isLoading = false);
+    }
+  }
 
   void openGallery(List gallery) {
     int currentIndex = 0;
@@ -241,7 +195,7 @@ class _ArtistHistoryPageState extends State<ArtistHistoryPage> {
                                     top:
                                         Radius.circular(10)),
                             child: Image.asset(
-                              artist["image"],
+                              artist.mainImage ?? "",
                               width: double.infinity,
                               fit: BoxFit.cover,
                             ),
@@ -253,7 +207,7 @@ class _ArtistHistoryPageState extends State<ArtistHistoryPage> {
                           child: Column(
                             children: [
                               Text(
-                                artist["name"],
+                                artist.name ?? "",
                                 style:
                                     const TextStyle(
                                   color:
@@ -266,7 +220,7 @@ class _ArtistHistoryPageState extends State<ArtistHistoryPage> {
                               const SizedBox(
                                   height: 8),
                               Text(
-                                artist["desc"],
+                                artist.description ?? "",
                                 textAlign:
                                     TextAlign.center,
                                 style:
@@ -288,8 +242,8 @@ class _ArtistHistoryPageState extends State<ArtistHistoryPage> {
                                 ),
                                 onPressed: () =>
                                     openGallery(
-                                        artist[
-                                            "gallery"]),
+                                        artist.gallery ??
+                                            []),
                                 child:
                                     const Text(
                                   "Show Art",

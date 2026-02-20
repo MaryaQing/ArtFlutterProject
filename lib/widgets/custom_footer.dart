@@ -86,9 +86,9 @@ class CustomFooter extends StatelessWidget {
           children: [
             _socialIcon(Icons.facebook),
             const SizedBox(width: 15),
-            _socialIcon(Icons.camera_alt), // Instagram
+            _socialIcon(Icons.camera_alt),
             const SizedBox(width: 15),
-            _socialIcon(Icons.alternate_email), // Twitter
+            _socialIcon(Icons.alternate_email), 
           ],
         )
       ],
