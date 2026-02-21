@@ -57,7 +57,7 @@ class CustomFooter extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Text(
-          "Designed by YourName",
+          "Designed by Marya",
           style: GoogleFonts.inter(
             color: Colors.white70,
             fontSize: 14,
