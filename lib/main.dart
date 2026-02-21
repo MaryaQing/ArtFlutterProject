@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterdatabaseproject/auth/auth_gate.dart';
 void main() async{
    WidgetsFlutterBinding.ensureInitialized();
-   // debugShowCheckedModeBanner: false,
 
   await Supabase.initialize(
     url: "https://qqztjcltzrqlmcrugtkb.supabase.co",
