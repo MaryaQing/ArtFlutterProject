@@ -4,12 +4,6 @@ import 'package:flutterdatabaseproject/services/artist_service.dart';
 import 'package:flutterdatabaseproject/widgets/custom_footer.dart';
 import 'package:flutterdatabaseproject/widgets/custom_navigation_header.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: ArtistsPage(),
-    debugShowCheckedModeBanner: false,
-  ));
-}
 
 class ArtistsPage extends StatefulWidget {
   const ArtistsPage({super.key});

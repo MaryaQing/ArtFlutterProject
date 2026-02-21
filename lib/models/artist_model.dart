@@ -10,6 +10,7 @@ class Artist {
 
   Artist({
     this.id,
+    this.type,
     this.category,
     this.name,
     this.handle,
@@ -35,6 +36,7 @@ class Artist {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['type'] = type;
     data['category'] = category;
     data['name'] = name;
     data['handle'] = handle;
