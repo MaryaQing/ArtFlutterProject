@@ -188,7 +188,7 @@ isLoading
       ),
       const SizedBox(height: 25),
       Text(
-        "Every week we explore a new theme.\n"
+        "Every week we post a new darwaing challange.\n"
         "Express your creativity and join the challenge.\n"
         "For more inspiration click on the photo here:",
         textAlign: TextAlign.center,
