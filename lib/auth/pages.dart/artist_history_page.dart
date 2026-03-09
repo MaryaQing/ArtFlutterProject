@@ -105,7 +105,7 @@ artists = data
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Artists in History",
+                "\n Artists in History",
                 style: TextStyle(
                   fontSize: width < 600 ? 26 : 48,
                   fontFamily: "Serif",
@@ -116,12 +116,12 @@ artists = data
               const SizedBox(height: 15),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "Explore the legacy of those who shaped the art world across centuries.",
+                  child: Text(
+                  "\n Explore the legacy of those who shaped the art world\n across centuries.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white70,
+                    fontSize: 24,
+                    color:Color.fromARGB(255, 235, 184, 30),
                   ),
                 ),
               ),
