@@ -172,31 +172,36 @@ isLoading
     );
   }
 
-  Widget _heroText(bool isTablet) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Weekly Art Challenge",
-          style: GoogleFonts.playfairDisplay(
-            color: Colors.white,
-            fontSize: isTablet ? 46 : 32,
-            fontWeight: FontWeight.w500,
-          ),
+ Widget _heroText(bool isTablet) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center, // هذا المهم
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(
+        "Weekly Art Challenge",
+        textAlign: TextAlign.center,
+        style: GoogleFonts.playfairDisplay(
+          color: Colors.white,
+          fontSize: isTablet ? 48 : 36,
+          fontWeight: FontWeight.w500,
         ),
-        const SizedBox(height: 25),
-        Text(
-          "Every week we explore a new theme.\nExpress your creativity and join the challenge.",
-          style: GoogleFonts.inter(
-            color: Colors.white70,
-            fontSize: 16,
-            height: 1.6,
-            fontWeight: FontWeight.w300,
-          ),
+      ),
+      const SizedBox(height: 25),
+      Text(
+        "Every week we explore a new theme.\n"
+        "Express your creativity and join the challenge.\n"
+        "For more inspiration click on the photo here:",
+        textAlign: TextAlign.center,
+        style: GoogleFonts.inter(
+          color: Colors.white70,
+          fontSize: 18,
+          height: 1.6,
+          fontWeight: FontWeight.w300,
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
 
   Widget _heroImage() {
     return GestureDetector(
